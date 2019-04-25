@@ -1,6 +1,6 @@
 class Constants {
   static final String BASE_URL = "https://www.food2fork.com";
-  static final String API_KEY = "4200a9cca833030c34e73fe80864d07b";
+  static final String API_KEY = "10f43a778462f93af4c6083ec13dff68";
   static final SUCCESS_CODE = 200;
 
   static final DEFAULT_SEARCH_CATEGORIES = [

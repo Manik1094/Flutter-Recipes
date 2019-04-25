@@ -15,7 +15,17 @@ class Recipe{
     _image_url = recipe['image_url'];
     _social_rank = recipe['social_rank'];
   
+  }
 
+  Recipe.fromJson(Map<String, dynamic> recipe){
+     _title = recipe['title'];
+    _publisher = recipe['publisher'];
+    _recipe_id = recipe['recipe_id'];
+    _image_url = recipe['image_url'];
+    _social_rank = recipe['social_rank'];
+    _ingredients = new List<String>();
+    // recipe['ingredients'].forEach((p) => _ingredients.add());
+    _ingredients =  recipe['ingredients'].cast<String>();
   }
 
   String get title => _title;
@@ -26,5 +36,9 @@ class Recipe{
   List<String> get ingredients => _ingredients;
 
 
+
+}
+
+class Ingredients{
 
 }

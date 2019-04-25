@@ -4,8 +4,11 @@ import 'package:flutter_recipes/src/ui/recipe_list.dart';
 import 'package:flutter_recipes/src/utils/constants.dart';
 
 class RecipeCategoriesScreen extends StatelessWidget {
+
+  
   @override
   Widget build(BuildContext context) {
+  
     return Padding(
       padding: EdgeInsets.all(8.0),
       child: ListView.builder(
@@ -20,7 +23,7 @@ class RecipeCategoriesScreen extends StatelessWidget {
                   return RecipeListBlocProvider(
                     
                       child: RecipeListScreen(
-                    listItemIndex: index,
+                    category: Constants.DEFAULT_SEARCH_CATEGORIES[index],
                   ));
                 }));
               },
@@ -49,3 +52,5 @@ class RecipeCategoriesScreen extends StatelessWidget {
     );
   }
 }
+
+

@@ -9,7 +9,7 @@ class RecipeListBlocProvider extends InheritedWidget {
    super(key: key , child: child);
 
   @override
-  bool updateShouldNotify(_) {
+  bool updateShouldNotify(RecipeListBlocProvider oldWidget) {
     
     return true;
   }
