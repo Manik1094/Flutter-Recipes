@@ -1,15 +1,13 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipes/src/blocs/recipe_detail_bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/recipe_detail_bloc.dart';
 import 'package:flutter_recipes/src/blocs/recipe_list_bloc.dart';
-import 'package:flutter_recipes/src/blocs/recipe_list_bloc_provider.dart';
 import 'package:flutter_recipes/src/models/recipe_search_response.dart';
-
-
-
 import 'package:flutter_recipes/src/ui/recipe_detail.dart';
 
 class RecipeListScreen extends StatefulWidget {
   final String category;
+  //final RecipeListBloc bloc;
 
   RecipeListScreen({this.category});
   @override
@@ -43,22 +41,27 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
   @override
   void dispose() {
     // TODO: implement dispose
+    print('Inside dispose of RecipeList Screen');
     super.dispose();
     bloc.dispose();
   }
 
-  @override
-  void didChangeDependencies() {
-    super.didChangeDependencies();
-    bloc = RecipeListBlocProvider.of(context);
-    print('Inside didChangeDependencies');
+  // @override
+  // void didChangeDependencies() {
+  //   super.didChangeDependencies();
+  //   bloc = RecipeListBlocProvider.of(context);
+  //   print('Inside didChangeDependencies');
 
-    bloc.fetchRecipesByCategory(widget.category, page);
-  }
+  //   bloc.fetchRecipesByCategory(widget.category, page);
+  // }
 
   @override
   Widget build(BuildContext context) {
     print('Inside build');
+     bloc = BlocProvider.of<RecipeListBloc>(context);
+    print('Inside build of RecipeListScreen and executing query');
+
+    bloc.fetchRecipesByCategory(widget.category, page);
     return Scaffold(
       // appBar: AppBar(
       //   title: Text('Recipes List'),
@@ -81,7 +84,8 @@ class _RecipeListScreenState extends State<RecipeListScreen> {
                       Navigator.push(
                           context,
                           MaterialPageRoute(
-                              builder: ((context) => RecipeDetailBlocProvider(
+                              builder: ((context) => BlocProvider(
+                                    bloc: RecipeDetailBloc(),
                                     child: RecipeDetailScreen(
                                       recipe: snapshot.data.recipes[index],
                                     ),

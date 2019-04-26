@@ -1,5 +1,7 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipes/src/blocs/recipe_list_bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/recipe_list_bloc.dart';
+
 import 'package:flutter_recipes/src/ui/recipe_list.dart';
 import 'package:flutter_recipes/src/utils/constants.dart';
 
@@ -20,8 +22,8 @@ class RecipeCategoriesScreen extends StatelessWidget {
               onTap: () {
                 //TODO: Execute query based on category
                 Navigator.push(context, MaterialPageRoute(builder: (context) {
-                  return RecipeListBlocProvider(
-                    
+                  return BlocProvider(
+                    bloc: RecipeListBloc(),
                       child: RecipeListScreen(
                     category: Constants.DEFAULT_SEARCH_CATEGORIES[index],
                   ));

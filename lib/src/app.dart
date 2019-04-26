@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-import 'package:flutter_recipes/src/blocs/recipe_list_bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/bloc_provider.dart';
+import 'package:flutter_recipes/src/blocs/recipe_list_bloc.dart';
 import 'package:flutter_recipes/src/ui/recipe_categories.dart';
 import 'package:flutter_recipes/src/ui/recipe_list.dart';
 import 'package:flutter_recipes/src/utils/constants.dart';
@@ -64,10 +65,12 @@ class DataSearch extends SearchDelegate {
   @override
   Widget buildResults(BuildContext context) {
     print('Query is : $query');
-    return RecipeListBlocProvider(
+    return BlocProvider(
+      bloc: RecipeListBloc(),
         child: RecipeListScreen(
       category: query,
     ));
+    
   }
 
   @override
@@ -85,7 +88,8 @@ class DataSearch extends SearchDelegate {
                 context,
                 MaterialPageRoute(
                     builder: ((context) =>
-                    RecipeListBlocProvider(
+                    BlocProvider(
+                      bloc: RecipeListBloc(),
                       child:
                      RecipeListScreen(
                           category: suggestionsList[index],

@@ -1,8 +1,9 @@
+import 'package:flutter_recipes/src/blocs/bloc_provider.dart';
 import 'package:flutter_recipes/src/models/recipe_response.dart';
 import 'package:rxdart/rxdart.dart';
 import 'package:flutter_recipes/src/resources/repository.dart';
 
-class RecipeDetailBloc {
+class RecipeDetailBloc implements BlocBase{
   final _repository = Repository();
   final _recipeFetcher = BehaviorSubject<RecipeResponse>();
 
@@ -10,14 +11,16 @@ class RecipeDetailBloc {
 
   fetchRecipeById(String recipeId) async {
     RecipeResponse recipeResponse = await _repository.fetchRecipeById(recipeId);
-    if (recipeResponse == null) {
+    if (recipeResponse.recipe == null) {
       _recipeFetcher.sink.addError('Failed to load recipe details');
     } else {
       _recipeFetcher.sink.add(recipeResponse);
     }
   }
 
-  dispose() {
+  @override
+  void dispose() {
+    // TODO: implement dispose
     _recipeFetcher.close();
   }
 }

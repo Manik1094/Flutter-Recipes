@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_recipes/src/blocs/bloc_provider.dart';
 import 'package:flutter_recipes/src/blocs/recipe_detail_bloc.dart';
-import 'package:flutter_recipes/src/blocs/recipe_detail_bloc_provider.dart';
+
 import 'package:flutter_recipes/src/models/recipe.dart';
 import 'package:flutter_recipes/src/models/recipe_response.dart';
 
@@ -17,22 +18,19 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
   RecipeDetailBloc bloc;
 
   @override
-  void didChangeDependencies() {
-    // TODO: implement didChangeDependencies
-    super.didChangeDependencies();
-    bloc = RecipeDetailBlocProvider.of(context);
-    bloc.fetchRecipeById(widget.recipe.recipe_id);
-  }
-
-  @override
   void dispose() {
     // TODO: implement dispose
     super.dispose();
+    print('Inside dispose of RecipeDetail Screen');
+
     bloc.dispose();
   }
 
   @override
   Widget build(BuildContext context) {
+    bloc = BlocProvider.of<RecipeDetailBloc>(context);
+    print('Inside build of RecipeDetailScreen and executing query');
+    bloc.fetchRecipeById(widget.recipe.recipe_id);
     return Scaffold(
       appBar: AppBar(
         title: Text(widget.recipe.title),
@@ -41,8 +39,7 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
         stream: bloc.recipe,
         builder: (context, AsyncSnapshot<RecipeResponse> snapshot) {
           if (snapshot.hasData) {
-            return Column(
-              
+            return ListView(
               children: <Widget>[
                 Padding(
                   padding: const EdgeInsets.only(top: 8.0),
@@ -63,7 +60,8 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                   ),
                 ),
                 Padding(
-                  padding: const EdgeInsets.only(left:8.0 , right: 8.0 , top: 16.0),
+                  padding:
+                      const EdgeInsets.only(left: 8.0, right: 8.0, top: 16.0),
                   child: Row(
                     mainAxisAlignment: MainAxisAlignment.spaceAround,
                     children: <Widget>[
@@ -73,38 +71,31 @@ class _RecipeDetailScreenState extends State<RecipeDetailScreen> {
                             fontWeight: FontWeight.bold,
                             fontSize: 18.0,
                           )),
-
                       Text(snapshot.data.recipe.social_rank.toStringAsFixed(2),
                           style: TextStyle(
                             color: Colors.pink,
-                           
                             fontSize: 18.0,
-                          )),    
+                          )),
                     ],
                   ),
                 ),
-
                 Padding(
-                  padding: const EdgeInsets.only(left:8.0 , right: 8.0  ,top: 20.0),
+                  padding:
+                      const EdgeInsets.only(left: 10.0, right: 10.0, top: 20.0),
                   child: ListView.builder(
                     shrinkWrap: true,
                     itemCount: snapshot.data.recipe.ingredients.length,
-                    itemBuilder: (context , index){
+                    itemBuilder: (context, index) {
                       return Padding(
-                        padding: const EdgeInsets.only(top:8.0),
+                        padding: const EdgeInsets.only(top: 8.0),
                         child: Text(
                           snapshot.data.recipe.ingredients[index],
-                          style: TextStyle(
-                            color: Colors.black,
-                            fontSize: 15.0
-                          ),
+                          style: TextStyle(color: Colors.black, fontSize: 15.0),
                         ),
                       );
                     },
                   ),
                 )
-
-
               ],
             );
           } else if (snapshot.hasError) {
